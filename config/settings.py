@@ -14,7 +14,7 @@ MODE = os.getenv("MODE")
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+APPEND_SLASH=False
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
