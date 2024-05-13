@@ -3,6 +3,8 @@ import os
 from dotenv import load_dotenv
 load_dotenv() 
 
+
+STATIC_URL = '/static/'
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY='django-insecure-*v-phx*4a3z1$zb63stqr!*9!s@7sodevwirup7*nqtpb$g96t'
 DEBUG= os.getenv("DEBUG", False)
@@ -112,8 +114,6 @@ TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
 
 USE_TZ = True
-
-STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
