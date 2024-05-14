@@ -10,13 +10,12 @@ from drf_spectacular.views import (
 )
 
 from rest_framework.routers import DefaultRouter
-from fabricaNeeds.views import TotalViewSet, EstoqueViewSet, DemandasViewSet, RetiradasViewSet, RetirarEstoqueViewSet, EntradasEstoqueViewSet, ContribuinteViewSet, loginViewSet
+from fabricaNeeds.views import TotalViewSet, EstoqueViewSet, DemandasViewSet, RetirarEstoqueViewSet, EntradasEstoqueViewSet, ContribuinteViewSet, loginViewSet
 
 router = DefaultRouter()
 router.register(r"total", TotalViewSet)
 router.register(r"estoque", EstoqueViewSet)
 router.register(r"demandas", DemandasViewSet)
-router.register(r"retiradas", RetiradasViewSet)
 router.register(r"retirarEstoque", RetirarEstoqueViewSet)
 router.register(r"entradasEstoque", EntradasEstoqueViewSet)
 router.register(r"contribuinte", ContribuinteViewSet)
