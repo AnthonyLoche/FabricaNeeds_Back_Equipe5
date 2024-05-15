@@ -15,7 +15,7 @@ class loginViewSet(APIView):
             try:
                 contribuinte = Contribuinte.objects.get(nome=nome)
             except Contribuinte.DoesNotExist:
-                return JsonResponse({'error': 'User not found'}, status=status.HTTP_401_UNAUTHORIZED)
+                return JsonResponse({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
             
             # Verificar se a senha fornecida corresponde à senha armazenada
             if check_password(senha, contribuinte.senha):
