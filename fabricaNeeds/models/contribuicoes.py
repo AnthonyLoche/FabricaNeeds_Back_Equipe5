@@ -4,7 +4,9 @@ from django.contrib.auth.hashers import make_password, check_password
 class Contribuinte(models.Model):
     nome = models.CharField(max_length=100, null=False, unique=True)
     email = models.EmailField(null=False)
-    senha = models.CharField(max_length=100, null=False, default="1234") 
+    senha = models.CharField(max_length=100, null=False, default="1234")
+    token = models.CharField(max_length=10, null=True, default="")
+    verificado = models.BooleanField(default=False)
 
     def __str__(self):
         return self.nome
