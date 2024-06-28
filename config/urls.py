@@ -14,11 +14,11 @@ from fabricaNeeds.views import TotalViewSet, EstoqueViewSet, DemandasViewSet, Re
 
 router = DefaultRouter()
 router.register(r"total", TotalViewSet)
-router.register(r"estoque", EstoqueViewSet)
-router.register(r"demandas", DemandasViewSet)
-router.register(r"retirarEstoque", RetirarEstoqueViewSet)
-router.register(r"entradasEstoque", EntradasEstoqueViewSet)
-router.register(r"contribuinte", ContribuinteViewSet)
+router.register(r"stock", EstoqueViewSet)
+router.register(r"demands", DemandasViewSet)
+router.register(r"removeStock", RetirarEstoqueViewSet)
+router.register(r"addStock", EntradasEstoqueViewSet)
+router.register(r"clients", ContribuinteViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
