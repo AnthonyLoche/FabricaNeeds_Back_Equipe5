@@ -2,13 +2,15 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
+from fabricaNeeds.aimeucu import GitHubLogin
 
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularRedocView,
     SpectacularSwaggerView,
 )
-
+from django.urls import path, include
+from social_django import urls as social_django_urls
 from rest_framework.routers import DefaultRouter
 from fabricaNeeds.views import TotalViewSet, EstoqueViewSet, DemandasViewSet, RetirarEstoqueViewSet, EntradasEstoqueViewSet, ContribuinteViewSet, loginViewSet
 
@@ -35,6 +37,10 @@ urlpatterns = [
         SpectacularRedocView.as_view(url_name="schema"),
         name="redoc",
     ),
+    path('dj-rest-auth/', include('dj_rest_auth.urls')),
+    path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
+    path('dj-rest-auth/github/', include(social_django_urls, namespace='social')),
+    path('dj-rest-auth/github/login/', GitHubLogin.as_view(), name='github_login'),
 ]
 
 

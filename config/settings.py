@@ -3,7 +3,8 @@ import os
 from dotenv import load_dotenv
 load_dotenv() 
 
-
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 STATIC_URL = '/static/'
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY='django-insecure-*v-phx*4a3z1$zb63stqr!*9!s@7sodevwirup7*nqtpb$g96t'
@@ -14,6 +15,8 @@ MODE = os.getenv("MODE")
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+SITE_ID = 1
+
 APPEND_SLASH=False
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -21,12 +24,19 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-        'django.contrib.staticfiles',
+    'django.contrib.staticfiles',
     "corsheaders",
     "rest_framework",
     "fabricaNeeds",
     "drf_spectacular",
-    
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+    'social_django',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github'   
 ]
 
 MIDDLEWARE = [
@@ -38,12 +48,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
 
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
 }
 
 TEMPLATES = [
@@ -104,8 +119,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # Django's default auth backend
+    'social_core.backends.github.GithubOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
+
+SOCIAL_AUTH_GITHUB_KEY = 'Ov23lizI5bHOzJJEPBK1'
+SOCIAL_AUTH_GITHUB_SECRET = 'ad66a279853a58ad13ce9508a0926ccb7f3a0f66'
 
 LANGUAGE_CODE = 'pt-br'
 
@@ -123,4 +143,15 @@ SPECTACULAR_SETTINGS = {
     "TITLE": "FabricaNeeds API",
     "DESCRIPTION": "API para gerenciamento de estoque e demandas da Fabrica de Software",
     "VERSION": "1.0.0",
+}
+
+SOCIALACCOUNT_PROVIDERS = {
+    'github': {
+        'SCOPE': ['user:email'],  
+        'VERIFIED_EMAIL': True,
+        'APP': {
+            'client_id': SOCIAL_AUTH_GITHUB_KEY,
+            'secret': SOCIAL_AUTH_GITHUB_SECRET,
+        }
+    }
 }
