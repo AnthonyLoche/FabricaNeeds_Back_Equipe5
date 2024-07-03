@@ -1,4 +1,4 @@
-from .contribuicoes import ContribuinteSerializer
+# from .contribuicoes import ContribuinteSerializer
 from .total import TotalSerializer
 from .estoque import EstoqueSerializer
 from .retirarEstoque import RetirarEstoqueSerializer

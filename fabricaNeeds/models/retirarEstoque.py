@@ -1,9 +1,9 @@
 from django.db import models
-from .contribuicoes import Contribuinte
+# from .contribuicoes import Contribuinte
 from .estoque import Estoque
 
 class RetirarEstoque(models.Model):
-    usuario = models.ForeignKey(Contribuinte, on_delete=models.CASCADE)
+    # usuario = models.ForeignKey(Contribuinte, on_delete=models.CASCADE)
     produto = models.ForeignKey(Estoque, on_delete=models.CASCADE, default="")
     quantidade = models.IntegerField()
     data = models.DateField(auto_now_add=True)
