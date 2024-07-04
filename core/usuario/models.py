@@ -8,7 +8,7 @@ from .managers import CustomUserManager
 class Usuario(AbstractUser):
     username = None
     email = models.EmailField(_("e-mail address"), unique=True)
-    name = models.CharField(_("name"))
+    name = models.CharField(_("name"), max_length=255)
     passage_id = models.CharField(max_length=255, unique=True)
 
     USERNAME_FIELD = "email"

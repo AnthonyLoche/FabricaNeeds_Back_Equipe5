@@ -1,8 +1,8 @@
 from django.db import models
 # from .contribuicoes import Contribuinte
-
+from usuario.models import Usuario
 class Retiradas(models.Model):
-    # retirante = models.ForeignKey(Contribuinte, on_delete=models.CASCADE)
+    retirante = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     retirada = models.IntegerField()
     data = models.DateField(auto_now_add=True)
 
