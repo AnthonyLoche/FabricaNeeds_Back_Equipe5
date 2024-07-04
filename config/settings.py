@@ -7,7 +7,7 @@ load_dotenv()
 STATIC_URL = '/static/'
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY='django-insecure-*v-phx*4a3z1$zb63stqr!*9!s@7sodevwirup7*nqtpb$g96t'
-DEBUG= os.getenv("DEBUG", False)
+DEBUG= True
 ALLOWED_HOSTS=['*'] 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MODE = os.getenv("MODE")
@@ -21,12 +21,12 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-        'django.contrib.staticfiles',
+    'django.contrib.staticfiles',
+    "drf_spectacular",
     "corsheaders",
     "rest_framework",
-    "fabricaNeeds",
-    "drf_spectacular",
-    
+    "core.fabricaNeeds",
+    'core.usuario',
 ]
 
 MIDDLEWARE = [
@@ -42,8 +42,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'config.urls'
 
+
 REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": ("core.usuario.authentication.TokenAuthentication",),
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticatedOrReadOnly",),
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "PAGE_SIZE": 10,
 }
 
 TEMPLATES = [
@@ -87,24 +92,6 @@ else:
     }
 
 
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
-
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',  # Django's default auth backend
-]
 
 
 LANGUAGE_CODE = 'pt-br'
@@ -124,3 +111,10 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "API para gerenciamento de estoque e demandas da Fabrica de Software",
     "VERSION": "1.0.0",
 }
+
+AUTH_USER_MODEL = "usuario.Usuario"
+
+
+PASSAGE_APP_ID = '2TXjjhFWhntb7WqVkG46xAmb'
+PASSAGE_API_KEY = 'WG7v8fQtFx.eQpT8x7cBDY3NITVXUGLgEDWSg4eNUGDKzlFIRBfg7P7fUROLPpkgANHLGhCYesq'
+PASSAGE_AUTH_STRATEGY = 2
