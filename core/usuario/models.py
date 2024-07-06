@@ -12,6 +12,7 @@ class Usuario(AbstractUser):
     passage_id = models.CharField(max_length=255, unique=True)
     github_username = models.CharField(max_length=255, blank=True, null=True)
     verified = models.BooleanField(default=False)
+    picture = models.CharField(max_length=255, blank=True, null=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
