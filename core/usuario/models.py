@@ -12,6 +12,7 @@ class Usuario(AbstractUser):
     passage_id = models.CharField(max_length=255, unique=True)
     verified = models.BooleanField(default=False)
     picture = models.CharField(max_length=255, blank=True, null=True)
+    github_token = models.CharField(max_length=255, blank=True, null=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
@@ -26,3 +27,4 @@ class Usuario(AbstractUser):
         verbose_name = "Usuário"
         verbose_name_plural = "Usuários"
         ordering = ["-date_joined"]
+

@@ -1,5 +1,4 @@
 import os
-import requests
 from dotenv import load_dotenv
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
@@ -12,12 +11,9 @@ from core.usuario.models import Usuario as User
 
 load_dotenv()
 
-GITHUB_API = os.getenv("GITHUB_API")
 PASSAGE_APP_ID = settings.PASSAGE_APP_ID
 PASSAGE_API_KEY = settings.PASSAGE_API_KEY
 PASSAGE_AUTH_STRATEGY = settings.PASSAGE_AUTH_STRATEGY
-GITHUB_API_URL = "https://api.github.com"
-GITHUB_ORG = "fabricadesoftware-ifc"
 
 psg = Passage(PASSAGE_APP_ID, PASSAGE_API_KEY, auth_strategy=PASSAGE_AUTH_STRATEGY)
 
@@ -42,33 +38,29 @@ class TokenAuthentication(authentication.BaseAuthentication):
 
         try:
             psg_user_id = self._get_user_id(request)
-            user, created = self._get_or_create_user(psg_user_id)
-            user_info = self._verify_github_organization_membership(user)
-            self._update_user_info(user, user_info)
+            git_id = psg.getUser(psg_user_id)
+            github_provider_id = git_id.social_connections.github.provider_id
+            print(github_provider_id)
+            user, created = self._get_user(psg_user_id)
         except AuthenticationFailed:
             raise
         except Exception as e:
             raise AuthenticationFailed(str(e)) from e
 
-        return (user, user_info)
+        return (user)
 
-    def _get_or_create_user(self, psg_user_id):
+    def _get_user(self, psg_user_id):
+        response = ''
         try:
             user = User.objects.get(passage_id=psg_user_id)
+            print("passou aqui")
             created = False
+            print("passou aqui2")
+            response = (user, created)
         except ObjectDoesNotExist:
-            try:
-                psg_user = psg.getUser(psg_user_id)
-                user = User.objects.create_user(
-                    passage_id=psg_user.id,
-                    email=psg_user.email,
-                    github_token=psg_user.identities[0].oauth.access_token
-                )
-                created = True
-            except PassageError as e:
-                raise AuthenticationFailed(str(e)) from e
-
-        return user, created
+            response = "None, True, deu o caraio"    
+            
+        return response 
 
     def _get_user_id(self, request):
         try:
@@ -76,44 +68,12 @@ class TokenAuthentication(authentication.BaseAuthentication):
         except PassageError as e:
             raise AuthenticationFailed(str(e)) from e
 
-    def _verify_github_organization_membership(self, user):
-        headers = {
-            "Authorization": f"Bearer {GITHUB_API}",
-            "Accept": "application/vnd.github.v3+json"
-        }
-
-        response = requests.get(f"{GITHUB_API_URL}/user", headers=headers)
-        response.raise_for_status() 
-
-        user_data = response.json()
-        username = user_data.get("login")
-        email = user_data.get("email")
-        avatar_url = user_data.get("avatar_url")
-
-        org_response = requests.get(f"{GITHUB_API_URL}/orgs/{GITHUB_ORG}/members/{username}", headers=headers)
-        is_in_organization = org_response.status_code == 204
-
-        return {
-            "is_in_organization": is_in_organization,
-            "github_username": username,
-            "email": email,
-            "avatar_url": avatar_url
-        }
 
     def _update_user_info(self, user, user_info):
         updated = False
-
-        if user.github_username != user_info["github_username"]:
-            user.github_username = user_info["github_username"]
-            updated = True
-
-        if user.picture != user_info["avatar_url"]:
-            user.picture = user_info["avatar_url"]
-            updated = True
-
-        if user.verified != user_info["is_in_organization"]:
-           
-            user.verified = user_info["is_in_organization"]
+        #exemplo
+        if user.email != user_info["email"]:
+            user.email = user_info["email"]
             updated = True
 
         if updated:
