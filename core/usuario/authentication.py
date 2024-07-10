@@ -12,7 +12,6 @@ PASSAGE_APP_ID = settings.PASSAGE_APP_ID
 PASSAGE_API_KEY = settings.PASSAGE_API_KEY
 PASSAGE_AUTH_STRATEGY = settings.PASSAGE_AUTH_STRATEGY
 
-
 psg = Passage(PASSAGE_APP_ID, PASSAGE_API_KEY, auth_strategy=PASSAGE_AUTH_STRATEGY)
 
 
@@ -37,7 +36,10 @@ class TokenAuthentication(authentication.BaseAuthentication):
         try:
             psg_user_id = self._get_user_id(request)
             user = self._get_or_create_user(psg_user_id)
-            user.passage_id = psg.getUser(psg_user_id).passage_id
+            
+            # Atualizar o token se necessário
+            self._update_token_if_needed(psg_user_id, user)
+            
         except AuthenticationFailed:
             raise
         except Exception as e:
@@ -96,3 +98,12 @@ class TokenAuthentication(authentication.BaseAuthentication):
 
         except requests.RequestException as e:
             raise PassageError(f"Erro na requisição à API do GitHub: {str(e)}")
+
+    def _update_token_if_needed(self, psg_user_id, user):
+        try:
+            # Aqui você pode adicionar lógica para verificar a validade do token e renová-lo se necessário
+            # Isso pode incluir chamadas à API do Passage ou outra lógica personalizada
+            psg.refreshToken(psg_user_id)
+            print(f"Token atualizado para o usuário {user.username}")
+        except PassageError as e:
+            raise AuthenticationFailed(f"Erro ao atualizar o token: {str(e)}")
