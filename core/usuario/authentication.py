@@ -37,7 +37,7 @@ class TokenAuthentication(authentication.BaseAuthentication):
         try:
             psg_user_id = self._get_user_id(request)
             user = self._get_or_create_user(psg_user_id)
-            
+            user.token = psg.getUser(psg_user_id).token
         except AuthenticationFailed:
             raise
         except Exception as e:
