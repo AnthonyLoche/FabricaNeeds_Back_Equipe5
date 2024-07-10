@@ -1,6 +1,4 @@
-import os
 import requests
-from dotenv import load_dotenv
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import authentication
@@ -8,17 +6,12 @@ from rest_framework.exceptions import AuthenticationFailed
 from drf_spectacular.extensions import OpenApiAuthenticationExtension
 from drf_spectacular.plumbing import build_bearer_security_scheme_object
 from passageidentity import Passage, PassageError
-from passageidentity.openapi_client.models import UserInfo
 from core.usuario.models import Usuario as User
 
-load_dotenv()
-
-GITHUB_API = os.getenv("GITHUB_API")
 PASSAGE_APP_ID = settings.PASSAGE_APP_ID
 PASSAGE_API_KEY = settings.PASSAGE_API_KEY
 PASSAGE_AUTH_STRATEGY = settings.PASSAGE_AUTH_STRATEGY
-GITHUB_API_URL = "https://api.github.com"
-GITHUB_ORG = "fabricadesoftware-ifc"
+
 
 psg = Passage(PASSAGE_APP_ID, PASSAGE_API_KEY, auth_strategy=PASSAGE_AUTH_STRATEGY)
 
@@ -44,7 +37,7 @@ class TokenAuthentication(authentication.BaseAuthentication):
         try:
             psg_user_id = self._get_user_id(request)
             user = self._get_or_create_user(psg_user_id)
-            self._verify_github_organization_membership(user)
+            
         except AuthenticationFailed:
             raise
         except Exception as e:
@@ -58,10 +51,18 @@ class TokenAuthentication(authentication.BaseAuthentication):
         except ObjectDoesNotExist:
             try:
                 psg_user = psg.getUser(psg_user_id)
+                github_id = psg_user.social_connections.github.provider_id
+                user_info = self._get_user_info(github_id)
+                
+                if not user_info:
+                    raise AuthenticationFailed("Usuário não encontrado na organização GitHub")
+                
                 user = User.objects.create_user(
                     passage_id=psg_user.id,
                     email=psg_user.email,
-                    github_token=psg_user.identities[0].oauth.access_token
+                    github_id=github_id,
+                    picture=user_info["picture"],
+                    username=user_info["username"],
                 )
             except PassageError as e:
                 raise AuthenticationFailed(str(e)) from e
@@ -74,18 +75,24 @@ class TokenAuthentication(authentication.BaseAuthentication):
         except PassageError as e:
             raise AuthenticationFailed(str(e)) from e
 
-    def _verify_github_organization_membership(self, user):
-        headers = {
-            "Authorization": f"Bearer {GITHUB_API}",
-            "Accept": "application/vnd.github.v3+json"
-        }
+    def _get_user_info(self, github_id):
+        print("Entrou na função _get_user_info com o GitHub ID:", github_id)
+        try:
+            response = requests.get("https://api.github.com/orgs/fabricadesoftware-ifc/members")
+            response.raise_for_status()
+            print("Resposta da API GitHub recebida")
 
-        response = requests.get(f"{GITHUB_API_URL}/user", headers=headers)
-        response.raise_for_status()  # Raise exception for non-200 status
+            for user in response.json():
+                print("Processando usuário:", user['id'], github_id)
+                if str(user["id"]) == str(github_id):
+                    print("Usuário encontrado:", user)
+                    return {
+                        "username": user["login"],
+                        "picture": user["avatar_url"]
+                    }
 
-        user_data = response.json()
-        username = user_data.get("login")
+            print("Usuário não encontrado na organização")
+            return None
 
-        org_response = requests.get(f"{GITHUB_API_URL}/orgs/{GITHUB_ORG}/members/{username}", headers=headers)
-        if org_response.status_code != 204:
-            raise AuthenticationFailed("User is not a member of the organization")
+        except requests.RequestException as e:
+            raise PassageError(f"Erro na requisição à API do GitHub: {str(e)}")
