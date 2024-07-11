@@ -36,7 +36,9 @@ class TokenAuthentication(authentication.BaseAuthentication):
 
         try:
             psg_user_id = self._get_user_id(request)
+            print("Usuário autenticado com sucesso:", psg_user_id)
             user = self._get_or_create_user(psg_user_id)
+            print("Usuário criado com sucesso:", user)
         except AuthenticationFailed as e:
             raise AuthenticationFailed(str(e)) from e
         except Exception as e:
@@ -49,11 +51,14 @@ class TokenAuthentication(authentication.BaseAuthentication):
             user = User.objects.get(passage_id=psg_user_id)
         except ObjectDoesNotExist:
             try:
+                print("Buscando usuário na organização GitHub")
                 psg_user = psg.getUser(psg_user_id)
                 github_id = psg_user.social_connections.github.provider_id
                 user_info = self._get_user_info(github_id)
-                
+                print("Informações do usuário:", user_info)
+
                 if not user_info:
+                    print("Usuário não encontrado na organização GitHub")
                     raise AuthenticationFailed("Usuário não encontrado na organização GitHub")
                 
                 user = User.objects.create_user(
