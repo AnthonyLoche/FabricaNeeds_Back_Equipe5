@@ -40,8 +40,10 @@ class TokenAuthentication(authentication.BaseAuthentication):
             user = self._get_or_create_user(psg_user_id)
             print("Usuário criado com sucesso:", user)
         except AuthenticationFailed as e:
+            print("Erro na autenticação:", e)
             raise AuthenticationFailed(str(e)) from e
         except Exception as e:
+            print("Erro desconhecido na autenticação:", e)
             raise AuthenticationFailed(str(e)) from e
 
         return (user, None)
@@ -83,6 +85,7 @@ class TokenAuthentication(authentication.BaseAuthentication):
         print("Entrou na função _get_user_info com o GitHub ID:", github_id)
         try:
             response = requests.get("https://api.github.com/orgs/fabricadesoftware-ifc/members")
+            print("Requisição à API GitHub enviada", response)
             response.raise_for_status()
             print("Resposta da API GitHub recebida")
 
