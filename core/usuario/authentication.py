@@ -57,7 +57,6 @@ class TokenAuthentication(authentication.BaseAuthentication):
                 psg_user = psg.getUser(psg_user_id)
                 github_id = psg_user.social_connections.github.provider_id
                 user_info = self._get_user_info(github_id)
-                print("Informações do usuário:", user_info)
 
                 if not user_info:
                     print("Usuário não encontrado na organização GitHub")
@@ -88,11 +87,9 @@ class TokenAuthentication(authentication.BaseAuthentication):
             headers = {
                 "Authorization": f"token {settings.GITHUB_TOKEN}"
             }
-            print("Ira fazer a requisicao", url, headers)
+            
             response = requests.get(url, headers=headers)
-            print("Requisição à API GitHub enviada", response)
             response.raise_for_status()
-            print("Resposta da API GitHub recebida")
 
             for user in response.json():
                 print("Processando usuário:", user['id'], github_id)
