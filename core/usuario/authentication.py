@@ -84,7 +84,12 @@ class TokenAuthentication(authentication.BaseAuthentication):
     def _get_user_info(self, github_id):
         print("Entrou na função _get_user_info com o GitHub ID:", github_id)
         try:
-            response = requests.get("https://api.github.com/orgs/fabricadesoftware-ifc/members")
+            url = f"https://api.github.com/orgs/fabricadesoftware-ifc/members"
+            headers = {
+                "Authorization": f"token {settings.GITHUB_TOKEN}"
+            }
+            print("Ira fazer a requisicao", url, headers)
+            response = requests.get(url, headers=headers)
             print("Requisição à API GitHub enviada", response)
             response.raise_for_status()
             print("Resposta da API GitHub recebida")
