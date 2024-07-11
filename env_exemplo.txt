@@ -1,11 +1,17 @@
-SECRET_KEY='django-insecure-*v-phx*4a3z1$zb63stqr!*9!s@7sodevwirup7*nqtpb$g96t'
+
+PGHOST=''
+PGDATABASE=''
+PGUSER=''
+PGPASSWORD=''
+SECRET_KEY=''
+
 DEBUG=True
 ALLOWED_HOSTS=['*']
 
-MODE=MIGRATE # DEVELOPMENT, PRODUCTION, MIGRATE
-MY_IP=172.26.80.196
+MODE=DEVELOPMENT # MIGRATE, PRODUCTION, MIGRATE
 
-PGHOST='ep-aged-butterfly-a5lhu9xt.us-east-2.aws.neon.tech'
-PGDATABASE='fabricaNeeds'
-PGUSER='neondb_owner'
-PGPASSWORD='bPf52pymLtUD'
+PASSAGE_APP_ID=""
+
+PASSAGE_API_KEY=""
+
+GITHUB_API=''
