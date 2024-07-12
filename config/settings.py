@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "core.fabricaNeeds",
     'core.usuario',
     'django_extensions',
+    'localflavor',
 ]
 
 MIDDLEWARE = [

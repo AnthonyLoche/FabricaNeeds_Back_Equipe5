@@ -21,6 +21,7 @@ dependencies = [
     "pydotplus>=2.0.2",
     "pygraphviz>=1.13",
     "django-extensions>=3.2.3",
+    "django-localflavor>=4.0",
 ]
 requires-python = ">=3.10"
 readme = "README.md"
