@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "core.fabricaNeeds",
     'core.usuario',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [

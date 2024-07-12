@@ -2,7 +2,7 @@ from django.db import models
 from .estoque import Estoque
 
 class Demandas(models.Model):
-    produto = models.ForeignKey(Estoque, on_delete=models.CASCADE, unique=True)
+    produto = models.OneToOneField(Estoque, on_delete=models.CASCADE)
     nome_produto = models.CharField(max_length=100, null=True) 
     quantidade = models.IntegerField()
     data = models.DateField(auto_now_add=True)
