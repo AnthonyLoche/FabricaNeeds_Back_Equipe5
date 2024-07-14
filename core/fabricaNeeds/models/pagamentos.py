@@ -3,7 +3,7 @@ from localflavor.br.models import BRCPFField
 
 
 class Pagamentos(models.Model):
-    payment_id = models.AutoField(primary_key=True, null=False)
+    payment_id = models.CharField(max_length=20)
     cliente = models.CharField(max_length=100, null=False)
     email = models.EmailField(null=False)
     cpf = BRCPFField(max_length=11, null=False)
