@@ -19,10 +19,9 @@ dependencies = [
     "drf-spectacular>=0.27.2",
     "setuptools>=70.3.0",
     "pydotplus>=2.0.2",
-    "pygraphviz>=1.13",
     "django-extensions>=3.2.3",
     "django-localflavor>=4.0",
-#    "psycopg2>=2.9.9",
+    "async-to-sync>=0.2.3",
 ]
 requires-python = ">=3.10"
 readme = "README.md"

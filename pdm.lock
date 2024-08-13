@@ -4,8 +4,8 @@
 [metadata]
 groups = ["default"]
 strategy = ["cross_platform", "inherit_metadata"]
-lock_version = "4.4.2"
-content_hash = "sha256:67bd6fcef8ec127900e6bd07ceb12c1b19e8e6b95fb65a73be4a457399594979"
+lock_version = "4.4.1"
+content_hash = "sha256:8aaa9b184db441ab0ba2e02588c6a5b753f1851478d17e0f56bee438de07a276"
 
 [[package]]
 name = "aenum"
@@ -57,6 +57,16 @@ dependencies = [
 files = [
     {file = "asgiref-3.8.1-py3-none-any.whl", hash = "sha256:3e1e3ecc849832fe52ccf2cb6686b7a55f82bb1d6aee72a58826471390335e47"},
     {file = "asgiref-3.8.1.tar.gz", hash = "sha256:c343bd80a0bec947a9860adb4c432ffa7db769836c64238fc34bdc3fec84d590"},
+]
+
+[[package]]
+name = "async-to-sync"
+version = "0.2.3"
+summary = "Convert async coroutines to normal python functions"
+groups = ["default"]
+files = [
+    {file = "async_to_sync-0.2.3-py2.py3-none-any.whl", hash = "sha256:af509c8c849e00eff33c4d913b0c96ee93b755fa47d707615970615f41f08470"},
+    {file = "async_to_sync-0.2.3.tar.gz", hash = "sha256:592b07f1644bae56202f13efa6a7b1f048ed9b24eb7c9e927e4064535273fcaa"},
 ]
 
 [[package]]
@@ -686,22 +696,6 @@ files = [
 ]
 
 [[package]]
-name = "psycopg2"
-version = "2.9.9"
-requires_python = ">=3.7"
-summary = "psycopg2 - Python-PostgreSQL Database Adapter"
-groups = ["default"]
-files = [
-    {file = "psycopg2-2.9.9-cp310-cp310-win32.whl", hash = "sha256:38a8dcc6856f569068b47de286b472b7c473ac7977243593a288ebce0dc89516"},
-    {file = "psycopg2-2.9.9-cp310-cp310-win_amd64.whl", hash = "sha256:426f9f29bde126913a20a96ff8ce7d73fd8a216cfb323b1f04da402d452853c3"},
-    {file = "psycopg2-2.9.9-cp311-cp311-win32.whl", hash = "sha256:ade01303ccf7ae12c356a5e10911c9e1c51136003a9a1d92f7aa9d010fb98372"},
-    {file = "psycopg2-2.9.9-cp311-cp311-win_amd64.whl", hash = "sha256:121081ea2e76729acfb0673ff33755e8703d45e926e416cb59bae3a86c6a4981"},
-    {file = "psycopg2-2.9.9-cp312-cp312-win32.whl", hash = "sha256:d735786acc7dd25815e89cc4ad529a43af779db2e25aa7c626de864127e5a024"},
-    {file = "psycopg2-2.9.9-cp312-cp312-win_amd64.whl", hash = "sha256:a7653d00b732afb6fc597e29c50ad28087dcb4fbfb28e86092277a559ae4e693"},
-    {file = "psycopg2-2.9.9.tar.gz", hash = "sha256:d1454bde93fb1e224166811694d600e746430c006fbb031ea06ecc2ea41bf156"},
-]
-
-[[package]]
 name = "pycparser"
 version = "2.22"
 requires_python = ">=3.8"
@@ -828,16 +822,6 @@ groups = ["default"]
 files = [
     {file = "pygments-2.18.0-py3-none-any.whl", hash = "sha256:b8e6aca0523f3ab76fee51799c488e38782ac06eafcf95e7ba832985c8e7b13a"},
     {file = "pygments-2.18.0.tar.gz", hash = "sha256:786ff802f32e91311bff3889f6e9a86e81505fe99f2735bb6d60ae0c5004f199"},
-]
-
-[[package]]
-name = "pygraphviz"
-version = "1.13"
-requires_python = ">=3.10"
-summary = "Python interface to Graphviz"
-groups = ["default"]
-files = [
-    {file = "pygraphviz-1.13.tar.gz", hash = "sha256:6ad8aa2f26768830a5a1cfc8a14f022d13df170a8f6fdfd68fd1aa1267000964"},
 ]
 
 [[package]]

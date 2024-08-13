@@ -53,3 +53,4 @@ def atualizar_estoque(sender, instance, **kwargs):
     
     atualizar_obj.save()
 
+
