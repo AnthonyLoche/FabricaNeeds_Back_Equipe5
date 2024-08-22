@@ -5,4 +5,4 @@ from core.fabricaNeeds.models import Total
 class TotalSerializer(ModelSerializer):
     class Meta:
         model = Total
-        fields = "__all__"
+        fields = ['total']

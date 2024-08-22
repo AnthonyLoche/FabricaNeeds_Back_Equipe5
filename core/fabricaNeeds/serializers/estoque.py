@@ -5,4 +5,4 @@ from core.fabricaNeeds.models import Estoque
 class EstoqueSerializer(ModelSerializer):
     class Meta:
         model = Estoque
-        fields = "__all__"
+        fields = ["id", "item", "quantidade"]

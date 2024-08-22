@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.db.models.signals import pre_save
-from .models import Total, Retiradas, Estoque, RetirarEstoque, EntradasEstoque, Demandas
+from .models import Total, Retiradas, Estoque,EntradasEstoque, Demandas
 
 import sqlite3
 
@@ -17,16 +17,6 @@ def atualizar_total_contribuicoes(sender, instance, **kwargs):
         total_obj.total -= instance.retirada
     
     total_obj.save()
-
-@receiver(post_save, sender=RetirarEstoque)
-@receiver(post_delete, sender=RetirarEstoque)
-def atualizar_estoque(sender, instance, **kwargs):
-    estoque_obj, created = Estoque.objects.get_or_create(pk=instance.produto.id)
-    
-    if kwargs.get('created', True):
-        estoque_obj.quantidade -= instance.quantidade
-
-    estoque_obj.save()
 
 @receiver(post_save, sender=EntradasEstoque)
 @receiver(post_delete, sender=EntradasEstoque)
