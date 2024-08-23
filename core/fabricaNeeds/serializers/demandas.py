@@ -6,7 +6,7 @@ from core.fabricaNeeds.models import Demandas
 class DemandasSerializer(ModelSerializer):
     class Meta:
         model = Demandas
-        fields = ["produto", "quantidade", "data"]
+        fields = ["produto", "produto_nao_cadastrado" "quantidade", "data"]
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
