@@ -1,14 +1,10 @@
 from rest_framework.serializers import ModelSerializer
-
+from rest_framework import serializers
 from core.fabricaNeeds.models import Demandas
 
 
 class DemandasSerializer(ModelSerializer):
+    nome_produto = serializers.CharField(source="produto.item")
     class Meta:
         model = Demandas
-        fields = ["produto", "produto_nao_cadastrado" "quantidade", "data"]
-
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        representation["produto"] = instance.produto.item
-        return representation
+        fields = ["produto", "produto_nao_cadastrado", "quantidade", "nome_produto" , "data"]

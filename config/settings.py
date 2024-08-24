@@ -48,9 +48,9 @@ ROOT_URLCONF = 'config.urls'
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": ("core.usuario.authentication.TokenAuthentication",),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticatedOrReadOnly",),
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    # "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
-    "PAGE_SIZE": 10,
+    # "PAGE_SIZE": 10,
 }
 
 TEMPLATES = [
