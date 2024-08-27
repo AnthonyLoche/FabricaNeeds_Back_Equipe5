@@ -10,7 +10,7 @@ from drf_spectacular.views import (
 )
 
 from rest_framework.routers import DefaultRouter
-from core.fabricaNeeds.views import TotalViewSet, EstoqueViewSet, DemandasViewSet, EntradasEstoqueViewSet, PagamentosViewSet
+from core.fabricaNeeds.views import TotalViewSet, EstoqueViewSet, DemandasViewSet, PagamentosViewSet
 from core.usuario.router import router as usuario_router
 
 
@@ -18,7 +18,7 @@ router = DefaultRouter()
 router.register(r"total", TotalViewSet)
 router.register(r"stock", EstoqueViewSet)
 router.register(r"demands", DemandasViewSet)
-router.register(r"addStock", EntradasEstoqueViewSet)
+# router.register(r"addStock", EntradasEstoqueViewSet)
 router.register(r"payments", PagamentosViewSet)
 
 urlpatterns = [
