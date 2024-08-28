@@ -3,7 +3,7 @@ name = "FabricaNeeds-Back-Equipe5"
 version = "0.1.0"
 description = "Default template for PDM package"
 authors = [
-    {name = "", email = ""},
+    {name = "teste", email = "testes@teste.com"},
 ]
 dependencies = [
     "django>=4.2.13",
