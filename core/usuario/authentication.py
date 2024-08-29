@@ -7,7 +7,6 @@ from drf_spectacular.extensions import OpenApiAuthenticationExtension
 from drf_spectacular.plumbing import build_bearer_security_scheme_object
 from passageidentity import Passage, PassageError
 from core.usuario.models import Usuario as User
-import async_to_sync as sync
 
 PASSAGE_APP_ID = settings.PASSAGE_APP_ID
 PASSAGE_API_KEY = settings.PASSAGE_API_KEY
@@ -81,7 +80,7 @@ class TokenAuthentication(authentication.BaseAuthentication):
         except PassageError as e:
             raise AuthenticationFailed(str(e)) from e
 
-    async def _get_user_info(self, github_id):
+    def _get_user_info(self, github_id):
         print("Entrou na função _get_user_info com o GitHub ID:", github_id)
         try:
             url = f"https://api.github.com/orgs/fabricadesoftware-ifc/members"
@@ -89,7 +88,7 @@ class TokenAuthentication(authentication.BaseAuthentication):
                 "Authorization": f"token {settings.GITHUB_TOKEN}"
             }
             
-            response = await sync.to_async(requests.get)(url, headers=headers)
+            response = requests.get(url, headers=headers)
             response.raise_for_status()
 
             for user in response.json():
@@ -101,7 +100,7 @@ class TokenAuthentication(authentication.BaseAuthentication):
                         "picture": user["avatar_url"]
                     }
         except requests.RequestException as e:
-            raise PassageError(f"Erro na requisição à API do GitHub: {str(e)}")
+            raise PassageError(f"Erro na requisição à API do GitHub: {str(e), str(github_id), str(settings.GITHUB_TOKEN)}") 
 
             print("Usuário não encontrado na organização")
             return None
